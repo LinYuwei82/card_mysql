@@ -1,0 +1,34 @@
+开发、打包环境：
+
+Releases：dev_cardV1.0.2_win10_64.zip  /  设备管理卡制作系统V1.0.2_win10_64.zip
+操作系统：64位 windows 10/11
+python：python 3.11
+PyCharm：PyCharm 2023.2.5
+UI：PyQt5
+数据库：mysql 8.0
+数据库名：devicedb  
+运行 initialize_mysql.py 会自动建立数据库和表
+第三方库：PyQt5, pandas, reportlab, openpyxl, pyinstaller
+打包工具：pyinstaller
+
+
+Releases：dev_cardV1.0.2_win7_64.zip  /  设备管理卡制作系统V1.0.2_win7_64.zip
+操作系统：64位 windows 7
+python：python 3.8.10  64位
+PyCharm：PyCharm 2021.1.3
+UI：PyQt5
+数据库：mysql 8.0
+运行 initialize_mysql.py 会自动建立数据库和表
+第三方库：PyQt5, pandas, reportlab, openpyxl, pyinstaller
+打包工具：pyinstaller
+
+
+Releases：dev_cardV1.0.2_mac_Arm64.zip  /  设备管理卡制作系统V1.0.2_mac_Arm64.zip
+操作系统：mac OS 14 / M1芯片
+python：python 3.11
+PyCharm：PyCharm 2023.2.5
+UI：PyQt5
+数据库：mysql 8.0
+运行 initialize_mysql.py 会自动建立数据库和表
+第三方库：PyQt5, pandas, reportlab, openpyxl, pyinstaller
+打包工具：pyinstaller

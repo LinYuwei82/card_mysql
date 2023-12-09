@@ -139,17 +139,22 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                     data[field] = data[field].apply(lambda x: str(x)[:max_length] if len(str(x)) > max_length else x)
                 else:
                     data[field] = data[field].apply(lambda x: x[:max_length] if len(x) > max_length else x)
+            line =0
             for i in data.itertuples():
                 values = tuple(i[2:])
                 sql = "insert into tb_device (dev_name,location,control_range,phone) values (%s,%s,%s,%s)"
                 # params = (values[0], values[1], values[2], values[3])
                 service.exec_db(sql, values)
-            QMessageBox.information(None, '提示', 'Excel文件已成功导入！', QMessageBox.Ok)
+                line += 1
+            new_line = 'Excel文件已成功导入  ' + str(line) + '  条记录！'
+            QMessageBox.information(None, '提示', new_line, QMessageBox.Ok)
             self.show_all()
 
     def export_excel(self):
         sql = "select * from tb_device"
         result1, result2 = service.query_desc(sql)
+        row = len(result1)
+        new_line = '已成功导出  ' + str(row) + '  条记录到Excel文件！'
         data = pd.DataFrame(result1, columns=[desc[0] for desc in result2])
         # 过滤掉phone字段中的非数字字符
         data['phone'] = data['phone'].apply(lambda x: ''.join(filter(str.isdigit, str(x))))
@@ -160,7 +165,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                                                    options=options)
         if file_name:
             data.to_excel(file_name, index=False)
-            QMessageBox.information(None, '提示', '已成功导出Excel文件！', QMessageBox.Ok)
+            QMessageBox.information(None, '提示', new_line, QMessageBox.Ok)
 
     def show_all(self):
         self.tb_device.setRowCount(0)

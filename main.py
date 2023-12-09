@@ -309,6 +309,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                 sql = "update tb_device set dev_name=%s, location=%s, control_range=%s, phone=%s where dev_id=%s"
                 result = service.exec_db(sql, (dev_name, location, control_range, phone, dev_id))
                 if result > 0:
+                    self.refresh_cmbox()
                     self.show_all()
                     QMessageBox.information(None, '提示', '信息修改成功！', QMessageBox.Ok)
                     self.reset()
@@ -326,6 +327,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                 if res == QMessageBox.Yes:
                     result = service.exec_db("delete from tb_device where dev_id=%s", (self.select,))
                     if result > 0:
+                        self.refresh_cmbox()
                         self.show_all()
                         self.reset()
                         QMessageBox.information(None, '提示', '信息删除成功！', QMessageBox.Ok)

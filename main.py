@@ -28,6 +28,9 @@ class MainWindow(QMainWindow, Ui_mainWindow):
         self.time = datetime.toString("yyyy-MM-dd HH:mm:ss")  # 对日期时间进行格式化
         # 在状态栏中显示登录用户/登录时间，以及版权信息/记录数
         self.refresh_status_bar()
+        self.cmbox_name.addItem("所有")
+        self.cmbox_location.addItem("所有")
+        self.existing_name = []
         self.bind_name()
         self.bind_location()
         self.bind_kind()
@@ -74,28 +77,29 @@ class MainWindow(QMainWindow, Ui_mainWindow):
         if res == QMessageBox.Yes:
             result = service.exec_del("delete from tb_device")
             if result > 0:
+                # self.existing_name = []
                 self.show_all()
                 QMessageBox.information(None, '提示', "全部数据已清空！", QMessageBox.Ok)
 
     def bind_name(self):
-        self.cmbox_name.addItem("所有")
+        # self.cmbox_name.addItem("所有")
         result = service.query_db("select dev_name from tb_device")
-        existing_name = []
+        # self.existing_name = []
         for i in result:
             key = i[0]
-            if key not in existing_name:
+            if key not in self.existing_name:
                 self.cmbox_name.addItem(i[0])
-                existing_name.append(key)
+                self.existing_name.append(key)
 
     def bind_location(self):
-        self.cmbox_location.addItem("所有")
+        # self.cmbox_location.addItem("所有")
         result = service.query_db("select location from tb_device")
-        existing_name = []
+        # self.existing_name = []
         for i in result:
             key = i[0]
-            if key not in existing_name:
+            if key not in self.existing_name:
                 self.cmbox_location.addItem(i[0])
-                existing_name.append(key)
+                self.existing_name.append(key)
 
     def bind_kind(self):
         self.cmbox_kind.addItem("设备名称")
@@ -195,6 +199,8 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                 data = QTableWidgetItem(str(result[i][j]))
                 self.tb_device.setItem(i, j, data)
                 # self.tb_device.resizeColumnsToContents()
+        self.bind_name()
+        self.bind_location()
         return result
 
     def query(self):

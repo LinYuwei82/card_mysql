@@ -28,11 +28,14 @@ class MainWindow(QMainWindow, Ui_mainWindow):
         self.time = datetime.toString("yyyy-MM-dd HH:mm:ss")  # 对日期时间进行格式化
         # 在状态栏中显示登录用户/登录时间，以及版权信息/记录数
         self.refresh_status_bar()
-        self.cmbox_name.addItem("所有")
-        self.cmbox_location.addItem("所有")
-        self.existing_name = []
-        self.bind_name()
-        self.bind_location()
+        # self.cmbox_name.clear()
+        # self.cmbox_location.clear()
+        # self.cmbox_name.addItem("所有")
+        # self.cmbox_location.addItem("所有")
+        # self.existing_name = []
+        # self.bind_name()
+        # self.bind_location()
+        self.refresh_cmbox()
         self.bind_kind()
         self.show_all()
         self.tb_device.itemClicked.connect(self.get_item)
@@ -57,6 +60,17 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                                    + "  |  版权所有：" + service.copyrights +
                                    "                    " + "共计  " + service.record + "  条记录", 0)
 
+    def refresh_cmbox(self):
+        self.cmbox_name.clear()
+        self.cmbox_location.clear()
+        self.cmbox_name.addItem("所有")
+        self.cmbox_location.addItem("所有")
+        self.existing_name = []
+        self.bind_name()
+        self.bind_location()
+
+
+
     def open_user(self):
         self.m = user.UserWindow()
         self.m.show()
@@ -77,7 +91,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
         if res == QMessageBox.Yes:
             result = service.exec_del("delete from tb_device")
             if result > 0:
-                # self.existing_name = []
+                self.refresh_cmbox()
                 self.show_all()
                 QMessageBox.information(None, '提示', "全部数据已清空！", QMessageBox.Ok)
 
@@ -201,6 +215,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                 # self.tb_device.resizeColumnsToContents()
         self.bind_name()
         self.bind_location()
+        # self.refresh_cmbox()
         return result
 
     def query(self):

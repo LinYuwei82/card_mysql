@@ -139,7 +139,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                     data[field] = data[field].apply(lambda x: str(x)[:max_length] if len(str(x)) > max_length else x)
                 else:
                     data[field] = data[field].apply(lambda x: x[:max_length] if len(x) > max_length else x)
-            line =0
+            line = 0
             for i in data.itertuples():
                 values = tuple(i[2:])
                 sql = "insert into tb_device (dev_name,location,control_range,phone) values (%s,%s,%s,%s)"

@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QMessageBox
 
 userName = ""
 Ver = ' Ver 1.0.0'
+copyrights = '深圳市安业物业管理有限公司'
+record = ''
 
 
 def open_db():

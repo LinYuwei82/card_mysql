@@ -25,10 +25,9 @@ class MainWindow(QMainWindow, Ui_mainWindow):
         self.tb_device.verticalHeader().setVisible(False)  # 隐藏垂直标题
         # self.tb_device.resizeColumnsToContents()
         datetime = QtCore.QDateTime.currentDateTime()  # 获取当前日期时间
-        time = datetime.toString("yyyy-MM-dd HH:mm:ss")  # 对日期时间进行格式化
-        # 在状态栏中显示登录用户/登录时间，以及版权信息
-        self.statusbar.showMessage("当前登录用户：" + service.userName + " | 登录时间：" + time
-                                   + " | 版权所有：深圳市安业物业管理有限公司", 0)
+        self.time = datetime.toString("yyyy-MM-dd HH:mm:ss")  # 对日期时间进行格式化
+        # 在状态栏中显示登录用户/登录时间，以及版权信息/记录数
+        self.refresh_status_bar()
         self.bind_name()
         self.bind_location()
         self.bind_kind()
@@ -49,6 +48,11 @@ class MainWindow(QMainWindow, Ui_mainWindow):
         self.btn_remove_duplicate.clicked.connect(self.remove_duplicate)
         self.btn_print_preview.clicked.connect(self.print_left)
         self.btn_print.clicked.connect(self.print_right)
+
+    def refresh_status_bar(self):  # 刷新service.record的值
+        self.statusbar.showMessage("当前登录用户：" + service.userName + "  |  登录时间：" + self.time
+                                   + "  |  版权所有：" + service.copyrights +
+                                   "                    " + "共计  " + service.record + "  条记录", 0)
 
     def open_user(self):
         self.m = user.UserWindow()
@@ -176,6 +180,8 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                 result = service.query_db("select dev_id, dev_name, location, control_range, phone from tb_device "
                                           "where dev_name=%s and location=%s", name, location)
         row = len(result)
+        service.record = str(row)
+        self.refresh_status_bar()  # 状态栏刷新记录数
         self.tb_device.setRowCount(row)
         self.tb_device.setColumnCount(5)
         self.tb_device.setHorizontalHeaderLabels(['设备编号', '设备名称', '位  置', '控制范围', '维护电话'])
@@ -209,6 +215,8 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                       "'%" + key + "%'"
                 result = service.query_db2(sql)
         row = len(result)
+        service.record = str(row)
+        self.refresh_status_bar()  # 状态栏刷新记录数
         self.tb_device.setRowCount(row)
         self.tb_device.setColumnCount(5)
         self.tb_device.setHorizontalHeaderLabels(['设备编号', '设备名称', '位  置', '控制范围', '维护电话'])

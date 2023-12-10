@@ -216,7 +216,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
                 # self.tb_device.resizeColumnsToContents()
         self.bind_name()
         self.bind_location()
-        # self.refresh_cmbox()
+        self.reset()
         return result
 
     def query(self):
@@ -251,6 +251,7 @@ class MainWindow(QMainWindow, Ui_mainWindow):
             for j in range(self.tb_device.columnCount()):
                 data = QTableWidgetItem(str(result[i][j]))
                 self.tb_device.setItem(i, j, data)
+        self.reset()
         return result
 
     def print_left(self):
